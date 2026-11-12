@@ -31,10 +31,10 @@ module.exports = handler(async (req, res) => {
   const [companies, accounts, contacts, deals, plans, sat, links, settingsRows, records] = await Promise.all([
     d1('brasil',
       `SELECT c.id, c.name, c.legal_name, c.market, c.state, c.headquarters, c.revenue_brl_m, c.revenue_year,
-              c.national_rank, c.website, c.source,
+              c.national_rank, c.website, c.source, c.segment,
               (SELECT COUNT(*) FROM decision_makers dm WHERE dm.company_id = c.id) AS n_decisors
        FROM companies c
-       ORDER BY c.revenue_brl_m IS NULL, c.revenue_brl_m DESC, c.name`),
+       ORDER BY c.segment = 'cliente', c.revenue_brl_m IS NULL, c.revenue_brl_m DESC, c.name`),
     d1('brasil', 'SELECT company_id, owner, tier, baseline_volume_eur, baseline_year, target_eur FROM accounts'),
     d1('brasil', 'SELECT company_id, COUNT(*) AS n, MAX(contact_date) AS last_date FROM contacts GROUP BY company_id'),
     d1('brasil', 'SELECT company_id, amount_eur, close_date, source FROM deals'),
@@ -77,7 +77,8 @@ module.exports = handler(async (req, res) => {
   // Ranking por estado (ordem de receita dentro de RJ e de SP)
   const stateCount = {};
   const rows = companies.map((c) => {
-    const stateRank = stateCount[c.state] = (stateCount[c.state] || 0) + 1;
+    // Clientes Noesis fora do top 20 não entram no ranking do estado
+    const stateRank = c.segment === 'cliente' ? null : (stateCount[c.state] = (stateCount[c.state] || 0) + 1);
     const acc = accM[c.id] || {};
     const dg = dealAgg[c.id] || { total: 0, last12: 0, year: 0, n: 0 };
     const recs = byCompany[c.id] || [];
@@ -94,6 +95,7 @@ module.exports = handler(async (req, res) => {
     return {
       id: c.id,
       state_rank: stateRank,
+      segment: c.segment || 'top20',
       state: c.state,
       national_rank: c.national_rank,
       name: c.name,

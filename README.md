@@ -38,7 +38,7 @@ Igual ao Norte Dashboard, com estas diferenças:
 
 | Elemento | Brasil |
 |---|---|
-| Lista | 40 empresas ordenadas por receita líquida. A coluna **# Estado** mostra a posição dentro do RJ ou de SP. |
+| Lista | 40 empresas ordenadas por receita líquida (coluna **# Estado** = posição no RJ ou em SP), seguidas dos **clientes Noesis fora do top 20** (marcados **C**): Banco ABC Brasil, Prudential do Brasil e PROTESTE. |
 | Filtros | Mercado, **Estado** (RJ / SP), Sede (cidade), Empresa, Atividade. |
 | Receita da empresa | Em reais (`R$ 497,5 bi`), fonte Valor 1000. |
 | Valores Noesis | Planos, vendas e pipeline em **euros**, para ficarem comparáveis com o PACE. |
@@ -80,5 +80,6 @@ npm run dev       # http://localhost:3000 com dados de exemplo (MOCK_D1=1)
 ## 6. Dados
 
 - `db/schema.sql`: schema completo. `db/seed-companies.sql`: as 40 empresas (Valor 1000 2026, sede RJ/SP; Valor exclui bancos e seguradoras).
+- `db/seed-clientes.sql`: coluna `companies.segment` (`top20` | `cliente`) e os 3 clientes Noesis fora do ranking, com decisores.
 - `db/seed-decision-makers.sql`: decisores de TI recolhidos com Firecrawl (fonte em `decision_makers.about` como `Fonte: <url>`).
 - Para acrescentar decisores, correr a recolha no Project "Ask My Database" e inserir em `decision_makers` com o `company_id` (`br-rj-01` … `br-sp-20`).

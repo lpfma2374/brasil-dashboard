@@ -27,8 +27,9 @@ describe('dashboard', () => {
     const r = await call('dashboard', 'GET', '/api/dashboard');
     expect(r.status).toBe(200);
     const C = r.body.companies;
-    expect(C.map((c) => c.name)).toEqual(['Petrobras', 'JBS', 'Vale', 'Claro', 'Globo']);
-    expect(C.map((c) => c.state + c.state_rank)).toEqual(['RJ1', 'SP1', 'RJ2', 'SP2', 'RJ3']);
+    expect(C.map((c) => c.name)).toEqual(['Petrobras', 'JBS', 'Vale', 'Claro', 'Globo', 'Prudential do Brasil']);
+    expect(C.map((c) => c.state + c.state_rank)).toEqual(['RJ1', 'SP1', 'RJ2', 'SP2', 'RJ3', 'RJnull']);
+    expect(C[5].segment).toBe('cliente');
     expect(C[0].national_rank).toBe(1);
   });
   it('associa propostas do PACE pelo nome e calcula o pipeline (exclui papers)', async () => {

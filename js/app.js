@@ -104,7 +104,8 @@
       .map(function (c) { return c.headquarters; })), 'Todas as cidades');
     fillCompanies();
     var act = C.filter(function (c) { return c.n_contacts || c.pipeline_total || c.volume_eur; }).length;
-    els.hint.textContent = C.length + ' empresas (RJ + SP) · ' + act + ' com atividade registada · ' +
+    var nCli = C.filter(function (c) { return c.segment === 'cliente'; }).length;
+    els.hint.textContent = (C.length - nCli) + ' maiores empresas (RJ + SP)' + (nCli ? ' + ' + nCli + (nCli === 1 ? ' cliente Noesis' : ' clientes Noesis') : '') + ' · ' + act + ' com atividade registada · ' +
       C.filter(function (c) { return storiesFor(c.name).length; }).length + ' com experiência comprovada';
   }
   function fillCompanies() {
@@ -219,7 +220,7 @@
     els.tbody.innerHTML = items.map(function (c) {
       var st = storiesFor(c.name);
       return '<tr data-id="' + esc(c.id) + '">' +
-        '<td><span class="rank' + (hasActivity(c, st) ? ' top' : '') + '" title="' + (hasActivity(c, st) ? 'Conta com plano, contactos, pipeline, volume ou experiência' : 'Sem atividade registada') + '">' + c.state_rank + '</span><div class="uf">' + esc(c.state) + '</div></td>' +
+        '<td><span class="rank' + (hasActivity(c, st) ? ' top' : '') + '" title="' + (hasActivity(c, st) ? 'Conta com plano, contactos, pipeline, volume ou experiência' : 'Sem atividade registada') + '">' + (c.segment === 'cliente' ? '<abbr style="text-decoration:none" title="Cliente Noesis fora do top 20">C</abbr>' : c.state_rank) + '</span><div class="uf">' + esc(c.state) + '</div></td>' +
         '<td><button class="name" data-act="account" title="Abrir ficha de conta">' + txt(c.name) + '</button>' +
           '<div class="sub">' + [c.headquarters, c.revenue_brl_m ? fmtRevenue(c.revenue_brl_m) + (c.revenue_year ? ' (' + c.revenue_year + ')' : '') : null].filter(Boolean).map(esc).join(' · ') + '</div>' +
           (c.plan ? '<button class="plan-dot" data-act="account" title="Ver plano estratégico">Plano ' + c.plan.year +
@@ -557,7 +558,7 @@
         var row = byId(c.id) || c;
         var tabs = [['plan', 'Plano estratégico'], ['volume', 'Volume de negócio'], ['sat', 'Satisfação']];
         setSheet(e, '<h2>' + txt(c.name) + '</h2>' +
-          '<div class="sub">' + [row.market, row.headquarters, row.revenue_brl_m ? 'Receita líquida ' + fmtRevenue(row.revenue_brl_m) : null, '#' + row.state_rank + ' em ' + row.state, row.national_rank ? '#' + row.national_rank + ' no Valor 1000' : null].filter(Boolean).map(esc).join(' · ') + '</div>' +
+          '<div class="sub">' + [row.market, row.headquarters, row.revenue_brl_m ? 'Receita líquida ' + fmtRevenue(row.revenue_brl_m) : null, row.segment === 'cliente' ? 'Cliente Noesis (' + row.state + ')' : '#' + row.state_rank + ' em ' + row.state, row.national_rank ? '#' + row.national_rank + ' no Valor 1000' : null].filter(Boolean).map(esc).join(' · ') + '</div>' +
           '<div class="tabs" role="tablist">' + tabs.map(function (t) {
             return '<button role="tab" data-tab="' + t[0] + '" class="' + (t[0] === current ? 'on' : '') + '">' + t[1] + '</button>'; }).join('') + '</div>' +
           '<div id="tab"></div>');

@@ -16,6 +16,7 @@ function seed() {
     ['br-rj-11', 'Globo', 'Comunicação e Gráfica', 'RJ', 'Rio de Janeiro', 18283.4, 2025, 80],
     ['br-sp-15', 'Claro', 'TI & Telecom', 'SP', 'São Paulo', 51812.1, 2025, 27]]
     .forEach((r) => ins.run(...r));
+  br.prepare("INSERT INTO companies (id,name,market,state,headquarters,segment) VALUES ('br-cli-prudential','Prudential do Brasil','Seguros','RJ','Rio de Janeiro','cliente')").run();
   const dm = br.prepare('INSERT INTO decision_makers (id,company_id,full_name,linkedin_url,current_title,seniority,email) VALUES (?,?,?,?,?,?,?)');
   dm.run('dm1', 'br-rj-11', 'Ana Exemplo', 'https://br.linkedin.com/in/ana-exemplo', 'CIO', 'C-Level', 'ana@exemplo.com.br');
   dm.run('dm2', 'br-rj-11', 'Rui Teste', 'https://www.linkedin.com/in/rui-teste', 'Head of IT', 'Head', null);

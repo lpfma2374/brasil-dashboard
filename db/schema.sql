@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS companies (
   revenue_brl_m REAL, revenue_year INTEGER,   -- receita líquida em R$ milhões
   national_rank INTEGER,                 -- posição no Valor 1000
   website TEXT, linkedin_url TEXT, source TEXT,
+  segment TEXT NOT NULL DEFAULT 'top20' CHECK (segment IN ('top20','cliente')),  -- cliente = cliente Noesis fora do top 20
   created_at TEXT DEFAULT (datetime('now')), updated_at TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_companies_state ON companies(state, revenue_brl_m DESC);

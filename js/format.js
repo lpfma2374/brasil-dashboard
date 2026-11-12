@@ -67,6 +67,7 @@ function matchesActivity(c, a) {
     case 'plan': return !!c.plan_status;
     case 'noplan': return !c.plan_status;
     case 'decisors': return c.n_decisors > 0;
+    case 'clients': return c.segment === 'cliente';
     case 'none': return !c.n_contacts && !c.pipeline_total && !c.volume_eur && !c.plan_status;
     default: return true;
   }
