@@ -5,8 +5,9 @@ interações (contactos no formato de ata de reunião), pipeline de propostas, p
 efetivo, decisores de TI e experiência (success stories), com os KPIs no header. Mesmas funcionalidades do
 [Norte Dashboard](https://github.com/lpfma2374/norte-dashboard).
 
-O site tem dados comerciais e pessoais (decisores): manter o `*.vercel.app` com Vercel Authentication e, se for criado um
-domínio próprio (ex.: `brasil.luispedroalvim.dev`), colocá-lo atrás do Cloudflare Access como o Norte.
+Site: **https://brasil.luispedroalvim.dev** (CNAME proxied na Cloudflare → Vercel), atrás do **Cloudflare Access**
+(aplicação "Brasil Dashboard", política própria com acesso exclusivo a `luis.alvim@noesis.pt`, sessão de 24h).
+Os URLs `*.vercel.app` ficam com Vercel Authentication.
 
 ---
 
