@@ -1,0 +1,10 @@
+[
+  { "type": "minCount", "value": 40, "_doc": "20 RJ + 20 SP (+ clientes Noesis fora do top 20); menos = import partido" },
+  { "type": "maxCount", "value": 60 },
+  { "type": "nonNull", "field": "id" },
+  { "type": "unique", "field": "id" },
+  { "type": "nonNull", "field": "name" },
+  { "type": "enum", "field": "state", "values": ["RJ", "SP"] },
+  { "type": "min", "field": "revenue_brl_m", "value": 0 },
+  { "type": "min", "field": "n_decisors", "value": 0 }
+]
